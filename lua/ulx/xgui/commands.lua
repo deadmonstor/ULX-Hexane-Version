@@ -290,6 +290,7 @@ function cmds.playerNameChanged( ply, old, new )
 	end
 end
 
+
 cmds.refresh = function( permissionChanged )
 	local lastcmd = cmds.selcmd
 	cmds.cmds:Clear()
