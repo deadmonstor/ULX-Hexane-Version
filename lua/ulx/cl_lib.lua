@@ -48,12 +48,12 @@ function ulx.blindUser( bool, amt )
 	end
 end
 
-local function rcvBlind( um )
-	local bool = um:ReadBool()
-	local amt = um:ReadShort()
+local function rcvBlind( )
+	local bool = net.ReadBool()
+	local amt = net.ReadInt(32)
 	ulx.blindUser( bool, amt )
 end
-usermessage.Hook( "ulx_blind", rcvBlind )
+net.Receive( "ulx_blind", rcvBlind )
 
 
 local curVote

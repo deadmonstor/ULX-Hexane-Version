@@ -1,5 +1,10 @@
 local CATEGORY_NAME = "Fun"
 
+if SERVER then
+	util.AddNetworkString("ulx_blind")
+	util.AddNetworkString("ulib_sound")
+end
+
 ------------------------------ Slap ------------------------------
 function ulx.slap( calling_ply, target_plys, dmg )
 	local affected_plys = {}
@@ -194,9 +199,9 @@ function ulx.playsound( calling_ply, sound )
 		return
 	end
 
-	umsg.Start( "ulib_sound" )
-		umsg.String( Sound( sound ) )
-	umsg.End()
+	net.Start( "ulib_sound" )
+		net.WriteString( Sound( sound ) )
+	net.Broadcast()
 
 	ulx.fancyLogAdmin( calling_ply, "#A played sound #s", sound )
 end
@@ -346,13 +351,20 @@ cloak:help( "Cloaks target(s)." )
 cloak:setOpposite( "ulx uncloak", {_, _, _, true}, "!uncloak" )
 
 ------------------------------ Blind ------------------------------
+
 function ulx.blind( calling_ply, target_plys, amount, should_unblind )
 	for i=1, #target_plys do
 		local v = target_plys[ i ]
-		umsg.Start( "ulx_blind", v )
-			umsg.Bool( not should_unblind )
-			umsg.Short( amount )
-		umsg.End()
+		
+		-- umsg.Start( "ulx_blind", v )
+			-- umsg.Bool( not should_unblind )
+			-- umsg.Short( amount )
+		-- umsg.End()
+		
+		net.Start("ulx_blind")
+			net.WriteBool(not should_unblind)
+			net.WriteInt(amount, 32)
+		net.Send(v)
 
 		if should_unblind then
 			if v.HadCamera then
