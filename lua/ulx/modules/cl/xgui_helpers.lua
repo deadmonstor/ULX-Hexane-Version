@@ -31,7 +31,7 @@ function xgui.load_helpers()
 		xgui.anchor.Paint = function( self, w, h ) hook.Call( "XLIBDoAnimation" ) end
 		xgui.anchor:SetAlpha( 0 )
 
-		xgui.base = xlib.makepropertysheet{ x=0, y=0, w=600, h=400, parent=xgui.anchor, offloadparent=xgui.null }
+		xgui.base = xlib.makepropertysheet{ x=-0.25, y=0, w=600, h=400, parent=xgui.anchor, offloadparent=xgui.null }
 		xgui.base.animOpen = function() --First 4 are fade animations, last (or invalid choice) is the default fade animation.
 			xgui.settings.animIntype = tonumber( xgui.settings.animIntype )
 			if xgui.settings.animIntype == 2 then

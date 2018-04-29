@@ -17,7 +17,7 @@ function xlib.makecheckbox( t )
 	if t.textcolor then
 		pnl:SetTextColor( t.textcolor )
 	else
-		pnl:SetTextColor( SKIN.text_dark )
+		pnl:SetTextColor( SKIN.text_light )
 	end
 
 	if not t.tooltipwidth then t.tooltipwidth = 250 end
@@ -88,7 +88,7 @@ function xlib.makelabel( t )
 	if t.textcolor then
 		pnl:SetTextColor( t.textcolor )
 	else
-		pnl:SetTextColor( SKIN.text_dark )
+		pnl:SetTextColor( SKIN.text_light )
 	end
 
 	return pnl
@@ -150,6 +150,8 @@ function xlib.makeframe( t )
 	if t.nopopup ~= true then pnl:MakePopup() end
 	pnl:SetPos( t.x or ScrW()/2-t.w/2, t.y or ScrH()/2-t.h/2 )
 	pnl:SetTitle( t.label or "" )
+	
+
 	if t.draggable ~= nil then pnl:SetDraggable( t.draggable ) end
 	if t.showclose ~= nil then pnl:ShowCloseButton( t.showclose ) end
 	if t.skin then pnl:SetSkin( t.skin ) end
@@ -172,6 +174,23 @@ function xlib.makepropertysheet( t )
 		self.tabScroller.Panels = {}
 		self.Items = {}
 	end
+	
+	function pnl:Paint(w,h)
+	
+		
+		draw.RoundedBox( 0, 0, 0 , w, h, Color(99, 7, 7, 255) )
+		
+	end 
+	
+	timer.Simple(1, function() 	
+		if not IsValid(pnl) then return end
+		for k, v in pairs(pnl.Items) do
+			if (!v.Tab) then continue end
+			
+			v.Tab.Paint = function(self,w,h) local col = Color(99, 1, 1) if pnl.m_pActiveTab == v.Tab then h = 20 col = Color(200, 1, 1) end draw.RoundedBox(2, 1, 1, w - 2, h, col) end
+		end
+	end)
+	
 	return pnl
 end
 
@@ -182,6 +201,7 @@ function xlib.maketextbox( t )
 	pnl:SetTall( t.h or 20 )
 	pnl:SetEnterAllowed( true )
 	pnl:SetZPos( t.zpos or 0 )
+	
 	if t.convar then pnl:SetConVar( t.convar ) end
 	if t.text then pnl:SetText( t.text ) end
 	if t.enableinput then pnl:SetEnabled( t.enableinput ) end
@@ -244,10 +264,12 @@ function xlib.makecat( t )
 	t.contents:SetParent( pnl )
 	t.contents:Dock( TOP )
 
+
 	if t.expanded ~= nil then pnl:SetExpanded( t.expanded ) end
 	if t.checkbox then
 		pnl.checkBox = vgui.Create( "DCheckBox", pnl.Header )
 		pnl.checkBox:SetValue( t.expanded )
+		
 		function pnl.checkBox:DoClick()
 			self:Toggle()
 			pnl:Toggle()
@@ -275,6 +297,12 @@ function xlib.makecat( t )
 		end
 	end
 
+	function pnl:Paint(w,h)
+	
+		draw.RoundedBox( 0, 0, 0 , w, h, Color(199, 1, 1 , 150) )
+	
+	end
+	
 	return pnl
 end
 
@@ -284,6 +312,13 @@ function xlib.makepanel( t )
 	pnl:SetSize( t.w, t.h )
 	pnl:SetZPos( t.zpos or 0 )
 	if t.skin then pnl:SetSkin( t.skin ) end
+	
+	function pnl:Paint(w,h)
+	
+		//draw.RoundedBox( 0, 0, 0 , w, h, Color(190, 0,0, 150) )
+	
+	end
+	
 	if t.visible ~= nil then pnl:SetVisible( t.visible ) end
 	return pnl
 end
@@ -294,6 +329,7 @@ function xlib.makeXpanel( t )
 	pnl:SetPos( t.x, t.y )
 	pnl:SetSize( t.w, t.h )
 	if t.visible ~= nil then pnl:SetVisible( t.visible ) end
+	
 	return pnl
 end
 
@@ -453,6 +489,8 @@ function xlib.maketree( t )
 			self:InvalidateLayout()
 		end
 	end
+	
+
 	return pnl
 end
 
@@ -707,6 +745,7 @@ Derma_Hook( PANEL, "ApplySchemeSettings", "Scheme", "Panel" )
 
 function PANEL:Init()
 	self:SetPaintBackground( true )
+	
 end
 
 derma.DefineControl( "xlib_Panel", "", PANEL, "EditablePanel" )

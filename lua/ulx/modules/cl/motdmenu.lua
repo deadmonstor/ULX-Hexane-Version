@@ -9,13 +9,15 @@ function ulx.showMotdMenu( steamid )
 	end
 
 	local window = vgui.Create( "DFrame" )
+	
 	if ScrW() > 640 then -- Make it larger if we can.
 		window:SetSize( ScrW()*0.9, ScrH()*0.9 )
 	else
 		window:SetSize( 640, 480 )
 	end
+	
 	window:Center()
-	window:SetTitle( "ULX MOTD" )
+	window:SetTitle( "" )
 	window:SetVisible( true )
 	window:MakePopup()
 
@@ -31,7 +33,9 @@ function ulx.showMotdMenu( steamid )
 	html:SetSize( window:GetWide() - 20, window:GetTall() - button:GetTall() - 50 )
 	html:SetPos( 10, 30 )
 	if mode == "1" then -- file
-		html:SetHTML( ULib.fileRead( "data/ulx_motd.txt" ) or "" )
+	
+		html:OpenURL("https://loadingscreen.usehexane.com/gmod/")
+		
 	elseif mode == "2" then -- generator
 		html:SetHTML( ulx.generateMotdHTML() or "" )
 	else -- URL
