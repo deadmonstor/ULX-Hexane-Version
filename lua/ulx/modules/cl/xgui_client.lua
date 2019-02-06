@@ -116,8 +116,6 @@ function xgui.init( ply )
 		draw.RoundedBoxEx( 4, 0, 1, 580, 20, xgui.settings.infoColor, false, false, true, true )
 	end
 	local infoLabel = string.format( "\nULX Admin Mod :: XGUI - Team Ulysses |  ULX %s  |  ULib %s", ULib.pluginVersionStr("ULX"), ULib.pluginVersionStr("ULib") )
-
-
 	xlib.makelabel{ x=5, y=-10, label=infoLabel, parent=xgui.infobar }:NoClipping( true )
 	xgui.thetime = xlib.makelabel{ x=515, y=-10, label="", parent=xgui.infobar }
 	xgui.thetime:NoClipping( true )
@@ -297,7 +295,6 @@ function xgui.processModules()
 			xgui.settings_tabs:SetActiveTab( xgui.settings_tabs.Items[1].Tab, true )
 		end
 	end
-	
 end
 
 function xgui.checkNotInstalled( tabname )
@@ -374,7 +371,7 @@ function xgui.show( tabname )
 		xgui.base:SetSkin( xgui.settings.skin )
 		xgui.base.refreshSkin = nil
 	end
-	
+
 	--In case the string name had spaces, it sent the whole argument table. Convert it to a string here!
 	if type( tabname ) == "table" then
 		tabname = table.concat( tabname, " " )
